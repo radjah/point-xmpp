@@ -1,0 +1,4 @@
+<a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=@{{author}}%20" style="color:#4488ff; font-weight:bold; text-decoration:none;">@{{author}}</a> recommended your 
+{% if comment_id %}comment <a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=%23{{post_id}}%2f{{comment_id}}%20" style="color:#448844; font-weight:bold; text-decoration:none;">#{{post_id}}/{{comment_id}}</a>
+{% else %}post <a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=%23{{post_id}}%20" style="color:#448844; font-weight:bold; text-decoration:none;">#{{post_id}}</a>{% endif %}{% if text %}: {{text|xhtmlim|safe}} 
+(<a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=%23{{post_id}}%2f{{rcid}}%20" style="color:#448844; font-weight:bold; text-decoration:none;">#{{post_id}}/{{rcid}}</a>){% endif %}
