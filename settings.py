@@ -1,7 +1,7 @@
 workers = 8
 senders = 8
 
-libs = ['/home/point/point/lib']
+libs = ['/home/point/core/lib']
 
 # redis
 cache_socket = 'tcp://127.0.0.1:16380'
@@ -34,10 +34,10 @@ xmpp_jid = 'p@point.im'
 xmpp_resource = 'point'
 xmpp_password = ''
 
-template_path = '/home/point/point/xmpp/templates'
-avatars_path = '/home/point/point/www/static/img/a'
+template_path = '/home/point/xmpp/templates'
+avatars_path = '/home/point/img/a'
 
-media_path = '/home/point/point/www/static/img/m'
+media_path = '/home/point/img/m'
 media_root = '://i.point.im/m'
 
 lang = 'en'
@@ -61,7 +61,7 @@ edit_expire = 120
 edit_ratio = .95
 edit_distance = 10
 
-stoplist_file = '/home/point/point/common/stoplist.txt'
+stoplist_file = '/home/point/stoplist.txt'
 stoplist_expire = 600 # 10 minutes
 
 logger = 'xmpp'
