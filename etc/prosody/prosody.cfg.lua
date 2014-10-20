@@ -162,8 +162,8 @@ VirtualHost "psto.net"
 VirtualHost "point.im"
 
         ssl = {
-                key = "/home/point/ssl/private.key";
-                certificate = "/home/point/ssl/server.crt";
+                key = "/home/point/settings/ssl/private.key";
+                certificate = "/home/point/settings/ssl/server.crt";
         }
 
 
