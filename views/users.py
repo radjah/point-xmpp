@@ -186,16 +186,17 @@ def passwd_steps(value=None):
     password = None
 
     if sess['step'] == 'passwd':
-        if env.user.check_password_set():
-            env.user.session(passwd_steps, step='check', passwd=value)
-            return xmpp_template('passwd_enter_current')
+        #if env.user.check_password_set():
+        #    env.user.session(passwd_steps, step='check', passwd=value)
+        #    return xmpp_template('passwd_enter_current')
         password = value
+        env.user.session_destroy()
 
-    if sess['step'] == 'check':
-        if env.user.check_password_set() and not env.user.check_password(value):
-            env.user.session_destroy()
-            return xmpp_template('passwd_wrong')
-        password = sess['passwd']
+    #if sess['step'] == 'check':
+    #    if env.user.check_password_set() and not env.user.check_password(value):
+    #        env.user.session_destroy()
+    #        return xmpp_template('passwd_wrong')
+    #    password = sess['passwd']
 
     env.user.session_destroy()
     if password:
