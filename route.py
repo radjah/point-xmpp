@@ -34,10 +34,10 @@ route = [
         # subscriptions
         [r'^s(?:ubscribe)?\s*(?P<rec>!)?\s*%s\s*$' % login_re, users.subscribe],
         [r'^u(?:nsubscribe)?\s*(?P<rec>!)?\s*%s\s*$' % login_re, users.unsubscribe],
-        [r'^wl\s*%s\s*$' % login_re, users.add_to_whitelist],
-        [r'^uwl\s*%s\s*$' % login_re, users.del_from_whitelist],
-        [r'^bl\s*%s\s*$' % login_re, users.add_to_blacklist],
-        [r'^ubl\s*%s\s*$' % login_re, users.del_from_blacklist],
+        [r'^wl\s*(?P<logins>(?:@[a-z0-9_-]+[\s,]*)+)\s*', users.add_to_whitelist],
+        [r'^uwl\s*(?P<logins>(?:@[a-z0-9_-]+[\s,]*)+)\s*', users.del_from_whitelist],
+        [r'^bl\s*(?P<logins>(?:@[a-z0-9_-]+[\s,]*)+)\s*', users.add_to_blacklist],
+        [r'^ubl\s*(?P<logins>(?:@[a-z0-9_-]+[\s,]*)+)\s*', users.del_from_blacklist],
 
         [r'^s(?:ubscribe)?\s*(?:%s\s*)?\*\*(?P<taglist>.+)' % login_re, tags.subscribe],
         [r'^s(?:ubscribe)?\s*(?:%s\s*)?\*(?P<taglist>.+)' % login_re, tags.subscribe],

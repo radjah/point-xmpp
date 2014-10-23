@@ -292,24 +292,49 @@ def whitelist():
     return xmpp_template('whitelist', whitelist=whitelist)
 
 @check_auth
-def add_to_whitelist(login):
-    try:
-        if users.add_to_whitelist(login):
-            return xmpp_template('wl_ok', login=login)
-        else:
-            return xmpp_template('wl_already', login=login)
-    except SubscribeError:
-        return xmpp_template('wl_denied', login=login)
-    except UserNotFound:
-        return xmpp_template('user_not_found', login=login)
+def add_to_whitelist(logins):
+    logins = re.split(r'[\s@,]+', logins.strip(' \t@'))
+
+    added = []
+    already = []
+    denied = []
+    not_found = []
+    for login in logins:
+        try:
+            if users.add_to_whitelist(login):
+                added.append(login)
+            else:
+                already.append(login)
+        except SubscribeError:
+            denied.append(login)
+        except UserNotFound:
+            not_found.append(login)
+        except AlreadySubscribed:
+            already.append(login)
+
+    return xmpp_template('wl_updated', added=added, already=already,
+                                       denied=denied, not_found=not_found)
 
 @check_auth
-def del_from_whitelist(login):
-    try:
-        users.del_from_whitelist(login)
-        return xmpp_template('wl_rm_ok', login=login)
-    except UserNotFound:
-        return xmpp_template('user_not_found', login=login)
+def del_from_whitelist(logins):
+    logins = re.split(r'[\s@,]+', logins.strip(' \t@'))
+
+    deleted = []
+    not_deleted = []
+    not_found = []
+
+    for login in logins:
+        try:
+            if users.del_from_whitelist(login):
+                deleted.append(login)
+            else:
+                not_deleted.append(login)
+        except UserNotFound:
+            not_found.append(login)
+
+    return xmpp_template('wl_updated', deleted=deleted,
+                                       not_deleted=not_deleted,
+                                       not_found=not_found)
 
 @check_auth
 def blacklist():
@@ -318,24 +343,47 @@ def blacklist():
     return xmpp_template('blacklist', blacklist=blacklist, tags=tags)
 
 @check_auth
-def add_to_blacklist(login):
-    try:
-        if users.add_to_blacklist(login):
-            return xmpp_template('bl_ok', login=login)
-        else:
-            return xmpp_template('bl_already', login=login)
-    except SubscribeError:
-        return xmpp_template('bl_denied', login=login)
-    except UserNotFound:
-        return xmpp_template('user_not_found', login=login)
+def add_to_blacklist(logins):
+    logins = re.split(r'[\s@,]+', logins.strip(' \t@'))
+
+    added = []
+    already = []
+    not_found = []
+
+    for login in logins:
+        try:
+            if users.add_to_blacklist(login):
+                added.append(login)
+            else:
+                already.append(login)
+        except SubscribeError:
+            pass
+        except UserNotFound:
+            not_found.append(login)
+
+    return xmpp_template('bl_updated', added=added, already=already,
+                                       not_found=not_found)
 
 @check_auth
-def del_from_blacklist(login):
-    try:
-        users.del_from_blacklist(login)
-        return xmpp_template('bl_rm_ok', login=login)
-    except UserNotFound:
-        return xmpp_template('user_not_found', login=login)
+def del_from_blacklist(logins):
+    logins = re.split(r'[\s@,]+', logins.strip(' \t@'))
+
+    deleted = []
+    not_deleted = []
+    not_found = []
+
+    for login in logins:
+        try:
+            if users.del_from_blacklist(login):
+                deleted.append(login)
+            else:
+                not_deleted.append(login)
+        except UserNotFound:
+            not_found.append(login)
+
+    return xmpp_template('bl_updated', deleted=deleted,
+                                       not_deleted=not_deleted,
+                                       not_found=not_found)
 
 @check_auth
 def login():
