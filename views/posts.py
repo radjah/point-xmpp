@@ -113,6 +113,13 @@ def edit_post(post_id, text, taglist=None, private=None):
         return xmpp_template('post_diff_err', post_id=post_id)
     return xmpp_template('post_upd', post_id=post_id)
 
+def edit_last(text, taglist=None):
+    post_id = posts._get_last()
+    if not post_id:
+        return xmpp_template("nothing_to_edit")
+
+    return edit_post(post_id, text=text, taglist=taglist)
+
 def delete_post(post_id):
     try:
         posts.delete_post(post_id)

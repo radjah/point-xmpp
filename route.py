@@ -104,6 +104,7 @@ route = [
 
         [r'^e(?:dit)?\s*%s\s*\*\*?(?P<taglist>.+?)\s*(?:\r?\n|\*\*)\s*(?P<text>.*)$' % post_re, posts.edit_post],
         [r'^e(?:dit)?\s*%s\s*(?:(?P<taglist>(?:\*\s*\S+?\s*)+)\s+)?(?P<text>.*)$' % post_re, posts.edit_post],
+        [r'^e(?:dit)?\s*l(?:ast)?\s*(?:(?P<taglist>(?:\*\s*\S+?\s*)+)\s+)?(?P<text>.*)$', posts.edit_last],
 
         #[r'^(?P<private>pm?\s+)?(?P<to>(?:@[a-z0-9_-]+[,\s]*)+)?\*\*?(?P<taglist>.+?)\s*(?:\r?\n|(?<![a-z]:)//)\s*(?P<text>.*)$', posts.add_post],
 
