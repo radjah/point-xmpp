@@ -1,4 +1,4 @@
-Белый список обновлён.<br/>
+Чёрный список обновлён.<br/>
 {% if added %}
 <b>Добавлены</b>: {{ added|map('login', True)|join(", ")|safe }}.<br/>{% endif %}{% if already %}
 <b>Уже в списке</b>: {{ already|map('login', True)|join(", ")|safe }}.<br/>{% endif %}{% if denied %}
