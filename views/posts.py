@@ -76,9 +76,13 @@ def private_posts(show=False, offset=None, limit=None):
     if limit:
         limit = int(limit)
     else:
+        offset = 0
         limit = 10
 
-    plist = posts.private_incoming(offset=offset, limit=limit)
+    plist = posts.private_unread(offset=offset, limit=limit)
+    if not plist:
+        plist = posts.private_incoming(offset=offset, limit=limit)
+    plist.reverse()
 
     return xmpp_template('posts', posts=plist)
 
