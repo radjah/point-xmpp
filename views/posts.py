@@ -192,6 +192,7 @@ def show_post(post_id, last=False, all=False, show=False,
                 'files': c.files
             })
         cnt = None
+        posts.clear_unread_comments(post_id, map(lambda c: c.id, res))
     else:
         cnt = post.comments_count()
 
