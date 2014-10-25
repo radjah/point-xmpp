@@ -174,6 +174,7 @@ def show_post(post_id, last=False, all=False, show=False,
 
     comments = []
 
+    posts.clear_unread_posts(post_id)
     if last or all or show:
         if offset:
             offset = int(offset)
