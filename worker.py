@@ -22,6 +22,7 @@ from point.util.antispam import check_stoplist
 from point.core.user import NotAuthorized
 from user import ImUser, SessionCallError
 from point.core import PointError
+from point.app import posts
 
 from route import route
 
@@ -66,7 +67,7 @@ class XMPPWorker(object):
         if 'presence' in msg:
             pass
 
-        if check_stoplist(msg['body']):
+        if 'body' in msg and check_stoplist(msg['body']):
             return
 
         try:
@@ -78,6 +79,22 @@ class XMPPWorker(object):
         env.user = ImUser('xmpp', jid)
         env.jid = jid
         env.resource = resource
+
+        try:
+            if 'receipt' in msg and msg['receipt']:
+                try:
+                    uid, post_id, comment_id = msg['receipt'].split('_')
+                    posts.clear_unread_comments(post_id, int(comment_id))
+                    return
+                except ValueError:
+                    try:
+                        uid, post_id = msg['receipt'].split('_')
+                        posts.clear_unread_posts(post_id)
+                        return
+                    except ValueError:
+                        pass
+        except NotAuthorized:
+            pass
 
         if env.user.get_profile('im.auto_switch'):
             bare_from = msg['from'].split('/', 1)[0]
@@ -110,6 +127,7 @@ class XMPPWorker(object):
                     return view(**args)
 
         _presence = False
+
         try:
             reply = _route(env.user, jid, msg)
             if 'body' in reply and reply['body']:

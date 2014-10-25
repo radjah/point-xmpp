@@ -132,6 +132,11 @@ class XMPPSender(object):
             else:
                 out = {'to':jid, 'body':ctmpl['body']}
 
+            if 'post_id' in cdata and 'comment_id' in cdata:
+                out['_msg_id'] = 'post_%s_%s_%s' % (i, cdata['post_id'], cdata['comment_id'])
+            elif 'post_id' in cdata:
+                out['_msg_id'] = 'post_%s_%s' % (i, cdata['post_id'])
+
             #if channel == 'msg':
             #    if profile[i]['post_resource']:
             #        out['_resource'] = '#%s' % data['id']

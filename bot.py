@@ -15,6 +15,9 @@ from point.util import cache_get, cache_store, cache_del
 import json
 import sleekxmpp
 from sleekxmpp.xmlstream.jid import JID
+from pprint import pprint
+
+#register_stanza_plugin(Message, RequestPlugin)
 
 class XMPPBot(sleekxmpp.ClientXMPP):
     def __init__(self):
@@ -24,9 +27,13 @@ class XMPPBot(sleekxmpp.ClientXMPP):
         self._jid = "%s/%s" % (settings.xmpp_jid, settings.xmpp_resource)
         sleekxmpp.ClientXMPP.__init__(self, self._jid, settings.xmpp_password)
 
-        self.add_event_handler("session_start", self.start)
+        self.register_plugin('xep_0184')
+
+        self.add_event_handler("session_start", self.session_start)
         self.add_event_handler("message", self.handle_message)
         self.add_event_handler("presence_subscribed", self.handle_subscription)
+
+        self.add_event_handler("receipt_received", self.handle_receipt)
 
         self.xin = Queue('xin', addr=settings.queue_socket)
         self.xout = Queue('xout', addr=settings.queue_socket)
@@ -36,7 +43,7 @@ class XMPPBot(sleekxmpp.ClientXMPP):
 
         spawn(self.listen_queue)
 
-    def start(self, event):
+    def session_start(self, event):
         self.send_presence()
         self.get_roster()
 
@@ -46,10 +53,19 @@ class XMPPBot(sleekxmpp.ClientXMPP):
         if data:
             cache_del(key)
             self.send_message(**data)
-            
+
+    def handle_receipt(self, msg):
+        if msg['id'].startswith('post_'):
+            self.xin.push(json.dumps({'from': str(msg['from']),
+                                      'receipt': msg['id'][5:]}))
 
     def handle_message(self, msg):
         if msg['type'] in ('chat', 'normal'):
+            if msg['id'] and msg['id'].startswith('post_'):
+                _msg_id = msg['id'].strip()
+                self.xin.push(json.dumps({'from': str(msg['from']),
+                                          'id': _msg_id}))
+
             try:
                 jid, resource = str(msg['to']).split('/', 1)
             except ValueError:
@@ -90,8 +106,10 @@ class XMPPBot(sleekxmpp.ClientXMPP):
                                 else "I'm online"
                     self.send_presence(pto=data['to'], pstatus=pstatus)
 
+                mid = data['_msg_id'] if '_msg_id' in data else None
+
                 self.send_message(mfrom=mfrom, mto=data['to'], mtype='chat',
-                                  mbody=data['body'], mhtml=html)
+                                  mid=mid, mbody=data['body'], mhtml=html)
             elif '_authorize' in data and data['_authorize']:
                 # TODO: request subscription
                 self.sendPresenceSubscription(pto=data['to'])
@@ -102,14 +120,22 @@ class XMPPBot(sleekxmpp.ClientXMPP):
         finally:
             spawn(self.listen_queue)
 
+    def send_message(self, mto, mbody, msubject=None, mtype=None, mid=None,
+                     mhtml=None, mfrom=None, mnick=None):
+        msg = self.makeMessage(mto, mbody, msubject, mtype, mhtml, mfrom, mnick)
+        if mid:
+            msg['id'] = mid
+            msg['request_receipt'] = True
+        msg.send()
+
     def check_subscription(self, jid):
         try:
-            return self.roster[JID(jid).bare]['subscription'] == 'both'
+            return self.roster[settings.xmpp_jid][JID(jid).bare]['subscription'] == 'both'
         except KeyError:
             return False
 
 if __name__ == '__main__':
     bot = XMPPBot()
-    if bot.connect():
-        bot.process(threaded=False)
+    bot.connect()
+    bot.process(block=False)
 
