@@ -9,7 +9,7 @@
 UPD {{upd.no}}: {{upd.text}}{% endfor %}
 #{{post_id}} http://{{settings.domain}}/{{post_id}}
 
-{% if rec_users %}Рекомендовано {% for u in rec_users %}@{{u.login}}{% if loop.index==rec_users|count %}{% elif loop.index==rec_users|count-1 %} и {% else %}, {% endif %}{% endfor %}
+{% if rec_users %}Рекомендовано {% for u in rec_users %}@{{u.login}}{% if loop.index==rec_users|count %}{% elif loop.index==rec_users|count-1 %} та {% else %}, {% endif %}{% endfor %}
 {% endif %}
 {% for c in comments %}
 {{c.comment_id}}. @{{c.comment_author}}

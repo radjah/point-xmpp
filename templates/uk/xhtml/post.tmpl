@@ -33,7 +33,7 @@
 <a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=%23{{post_id}}++%20" style="color:#448844; font-weight:bold; text-decoration:none;" title="Усі коментарі">[++]</a>
 <a href="http://{{settings.domain}}/{{post_id}}">http://{{settings.domain}}/{{post_id}}</a>
 </p>
-{% if rec_users %}<p>Рекомендовано {% for u in rec_users %}<a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=@{{u.login}}%20" style="color:#4488ff; font-weight:bold; text-decoration:none;">@{{u.login}}</a>{% if loop.index==rec_users|count %}{% elif loop.index==rec_users|count-1 %} и {% else %}, {% endif %}{% endfor %}</p>{% endif %}
+{% if rec_users %}<p>Рекомендовано {% for u in rec_users %}<a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=@{{u.login}}%20" style="color:#4488ff; font-weight:bold; text-decoration:none;">@{{u.login}}</a>{% if loop.index==rec_users|count %}{% elif loop.index==rec_users|count-1 %} та {% else %}, {% endif %}{% endfor %}</p>{% endif %}
 {% for c in comments %}
 <p>
 {{c.comment_id}}. <a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=@{{c.comment_author}}%20" style="color:#4488ff; font-weight:bold; text-decoration:none;">@{{c.comment_author}}</a><br/>
