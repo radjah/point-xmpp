@@ -71,7 +71,7 @@ route = [
 
         [r'^#\s*%s?' % show_re, posts.all_posts],
 
-        #[r'^d\s*l(ast)?$', posts.delete_last],
+        [r'^d\s*l(ast)?$', posts.delete_last],
         [r'^d\s*l(ast)?$', command_disabled],
 
         [r'^i(?:nvite)?\s*%s\s*(?P<to>(?:(?:@[a-z0-9_-]+)+\s*)+)$' % post_re, posts.add_recipients],
