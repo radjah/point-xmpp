@@ -134,7 +134,7 @@ class XMPPWorker(object):
                 reply['body'] = re.sub(r'&#(\d+);',
                                        lambda c: chr(int(c.group(1))),
                                        reply['body'])
-                reply['body'] = u''.join([ c if ord(c) > 16 else ' ' \
+                reply['body'] = u''.join([ c if c == '\n' or ord(c) > 16 else ' ' \
                                            for c  in reply['body'] ])
 
             if '_presence' in reply and reply['_presence']:
