@@ -125,6 +125,7 @@ def edit_last(text, taglist=None):
     return edit_post(post_id, text=text, taglist=taglist)
 
 def stick_post(post_id):
+    print '>>> ', post_id
     try:
         posts.stick_post(post_id)
     except PostNotFound:
