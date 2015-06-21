@@ -124,6 +124,14 @@ def edit_last(text, taglist=None):
 
     return edit_post(post_id, text=text, taglist=taglist)
 
+def stick_post(post_id):
+    try:
+        posts.stick_post(post_id)
+    except PostNotFound:
+        return xmpp_template('post_not_found', post_id=post_id)
+    except PostAuthorError:
+        return xmpp_template('post_stick_denied', post_id=post_id)
+
 def delete_post(post_id):
     try:
         posts.delete_post(post_id)

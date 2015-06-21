@@ -63,6 +63,7 @@ route = [
         [r'^%s\s*(?P<all>\+\+)$' % post_re, posts.show_post],
         [r'^%s\s*(?P<last>\+)$' % post_re, posts.show_post],
         [r'^%s%s?$' % (post_re, show_re), posts.show_post],
+        [r'^stick\s+%s(?=\s|$)' % post_re, posts.stick_post],
 
         [r'^%s\s*[/.]\s*(?P<comment_id>\d+)$' % post_re, posts.show_comment],
         [r'^%s(?:\s*[/.]\s*(?P<to_comment_id>\d+))?(?P<text>.+)$' % post_re, posts.add_comment],
