@@ -55,9 +55,13 @@ class XMPPBot(sleekxmpp.ClientXMPP):
             self.send_message(**data)
 
     def handle_receipt(self, msg):
-        if msg['id'].startswith('post_'):
+        if msg['receipt']:
+            receipt = msg['receipt']
+        elif msg['id']:
+            receipt = msg['id']
+        if receipt and receipt.startswith('post_'):
             self.xin.push(json.dumps({'from': str(msg['from']),
-                                      'receipt': msg['id'][5:]}))
+                                      'receipt': receipt[5:]}))
 
     def handle_message(self, msg):
         if msg['type'] in ('chat', 'normal'):
