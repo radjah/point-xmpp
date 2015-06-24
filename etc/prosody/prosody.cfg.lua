@@ -174,10 +174,10 @@ VirtualHost "point.im"
 
 ---Set up a MUC (multi-user chat) room server on conference.example.com:
 --Component "conference.psto.net" "muc"
---Component "conference.point.im" "muc"
---   modules_enabled = {
---      "muc_log";
---   }
+Component "conference.point.im" "muc"
+   modules_enabled = {
+      "muc_log";
+   }
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
 Component "proxy.psto.net" "proxy65"
