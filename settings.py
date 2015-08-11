@@ -61,6 +61,8 @@ edit_expire = 120
 edit_ratio = .95
 edit_distance = 10
 
+page_limit = 20
+
 stoplist_file = '/home/point/core/stoplist.txt'
 stoplist_expire = 600 # 10 minutes
 
