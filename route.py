@@ -52,8 +52,8 @@ route = [
         [r'^(?:wl|whitelist)$', users.whitelist],
         [r'^(?:bl|blacklist)$', users.blacklist],
 
-        [r'^%s\s*\*\*(?P<taglist>.*)$' % post_re, posts.update_tags],
-        [r'^%s\s*\*(?P<taglist>.*)$' % post_re, posts.update_tags],
+        [r'^e(?:dit)?\s*%s\s*\*\*(?P<taglist>.*)$' % post_re, posts.update_tags],
+        [r'^e(?:dit)?\s*%s\s*\*(?P<taglist>.*)$' % post_re, posts.update_tags],
 
         [r'^s(?:ubscribe)?\s*%s(?:\s*[/.]\s*\d+)?$' % post_re, posts.subscribe],
         [r'^u(?:nsubscribe)?\s*%s(?:\s*[/.]\s*\d+)?$' % post_re, posts.unsubscribe],
