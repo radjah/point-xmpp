@@ -17,7 +17,7 @@
 </p>
 <p style="margin:0">Comments: {{p.post.comments_count()}}</p>
 <a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=%23{{p.post.id}}%20" style="color:#448844; font-weight:bold; text-decoration:none;">#{{p.post.id}}</a> 
-<a href="http://{{settings.domain}}/{{p.post.id}}">http://{{settings.domain}}/{{p.post.id}}</a>
+<a href="https://{{settings.domain}}/{{p.post.id}}">https://{{settings.domain}}/{{p.post.id}}</a>
 <br/><br/>
 {% else %}
 {% if posts_count %}Posts: {{posts_count}}{% else %}No posts yet{% endif %}

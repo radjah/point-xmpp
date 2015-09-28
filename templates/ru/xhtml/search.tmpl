@@ -15,9 +15,9 @@
 </p>
 {% if p.comment_id %}
 <a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=%23{{p.post_id}}/{{p.comment_id}}%20" style="color:#448844; font-weight:bold; text-decoration:none;">#{{p.post_id}}/{{p.comment_id}}</a> 
-<a href="http://{{settings.domain}}/{{p.post_id}}#{{p.comment_id}}">http://{{settings.domain}}/{{p.post_id}}#{{p.comment_id}}</a>{% else %}
+<a href="https://{{settings.domain}}/{{p.post_id}}#{{p.comment_id}}">https://{{settings.domain}}/{{p.post_id}}#{{p.comment_id}}</a>{% else %}
 <a href="xmpp:{{settings.xmpp_jid}}?message;type=chat;body=%23{{p.post_id}}%20" style="color:#448844; font-weight:bold; text-decoration:none;">#{{p.post_id}}</a> 
-<a href="http://{{settings.domain}}/{{p.post_id}}">http://{{settings.domain}}/{{p.post_id}}</a>{% endif %}
+<a href="https://{{settings.domain}}/{{p.post_id}}">https://{{settings.domain}}/{{p.post_id}}</a>{% endif %}
 <br/><br/>
 {% endfor %}
 <p style="margin:0">

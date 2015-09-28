@@ -7,5 +7,5 @@
 {% if skype %}Skype: {{skype}}<br/>{% endif %}
 {% if icq %}ICQ: {{icq}}<br/>{% endif %}
 {% if about %}<br/>{{about|xhtmlim|safe}}<br/>{% endif %}
-<a href="http://{{login|lower}}.{{settings.domain}}/">http://{{login|lower}}.{{settings.domain}}/</a><br/>
+<a href="https://{{login|lower}}.{{settings.domain}}/">https://{{login|lower}}.{{settings.domain}}/</a><br/>
 {% include "uk/xhtml/posts.tmpl" %}
