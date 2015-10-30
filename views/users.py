@@ -393,7 +393,7 @@ def login():
     redis.set('login:%s'%key, env.user.id)
     redis.expire('login:%s'%key, settings.login_key_expire)
 
-    return 'http://%s/login/%s' % (settings.domain, key)
+    return 'https://%s/login/%s' % (settings.domain, key)
 
 @check_auth
 def gen_invite():
