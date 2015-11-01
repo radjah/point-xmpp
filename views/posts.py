@@ -6,7 +6,7 @@ from point.core.post import CommentNotFound, CommentAuthorError
 from point.core.post import RecommendationError, RecommendationNotFound, \
                             RecommendationExists, PostAuthorError, \
                             PostDiffError, PostUpdateError, \
-                            PostLimitError
+                            PostLimitError, PostReadonlyError
 from point.core.post import BookmarkExists
 from point.app import posts
 from point.util import parse_tags, parse_logins
@@ -218,6 +218,8 @@ def add_comment(post_id, to_comment_id, text):
     except CommentNotFound:
         return xmpp_template('comment_not_found', post_id=post_id,
                                                   comment_id=to_comment_id)
+    except PostReadonlyError:
+        return xmpp_template('post_readonly', post_id=post_id)
     except (PostAuthorError, SubscribeError):
         return xmpp_template('post_denied', post_id=post_id)
 
