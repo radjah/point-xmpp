@@ -81,6 +81,9 @@ route = [
         [r'^~\s*%s(?:[/.](?P<comment_id>\d+))?(?:\s*(?P<text>.+))?$' % post_re, posts.bookmark],
         [r'^~(?:\s*(?:(?P<offset>\d+)\s+)?(?P<limit>\d+))?', posts.bookmarks],
 
+        [r'^pin\s*%s$' % post_re, posts.pin_post],
+        [r'^unpin\s*%s$' % post_re, posts.unpin_post],
+
         #[r'^upd\s*%s(?:[/.]\d+)?\s*(?P<text>.+)$' % post_re, posts.update_post],
 
         [r'^pm?%s?$' % show_re, posts.private_posts],

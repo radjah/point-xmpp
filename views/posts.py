@@ -13,6 +13,7 @@ from point.util import parse_tags, parse_logins
 from geweb.env import env
 from point.util.template import xmpp_template
 
+
 try:
     import re2 as re
 except ImportError:
@@ -354,6 +355,45 @@ def bookmark(post_id, comment_id=None, text=None):
         return xmpp_template('post_bookmark_denied', post_id=post_id)
     except (PostAuthorError, SubscribeError):
         return xmpp_template('post_denied', post_id=post_id)
+
+
+def pin_post(post_id):
+    try:
+        post = Post(id)
+        if env.user.id == post.author.id:
+            if not post.pinned:
+                post.set_pinned(True)
+                return Response(redirect=env.request.referer)
+            else:
+                raise PostAlreadyPinnedError
+        else:
+            raise PostAuthorError
+    except PostAuthorError:
+        return xmpp_template('post_denied', post_id=post_id)
+    except PostAlreadyPinnedError:
+        return xmpp_template('post_already_pinned', post_id=post_id)
+    except PostNotFound:
+        return xmpp_template('post_not_found', post_id=post_id)
+
+
+def unpin_post(post_id):
+    try:
+        post = Post(id)
+        if env.user.id == post.author.id:
+            if post.pinned:
+                post.set_pinned(False)
+                return Response(redirect=env.request.referer)
+            else:
+                raise PostNotPinnedError
+        else:
+            raise PostAuthorError
+    except PostAuthorError:
+        return xmpp_template('post_denied', post_id=post_id)
+    except PostNotPinnedError:
+        return xmpp_template('post_not_pinned', post_id=post_id)
+    except PostNotFound:
+        return xmpp_template('post_not_found', post_id=post_id)
+
 
 def add_recipients(post_id, to):
     to = parse_logins(to)
