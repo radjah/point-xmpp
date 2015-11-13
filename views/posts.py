@@ -363,7 +363,7 @@ def pin_post(post_id):
         if env.user.id == post.author.id:
             if not post.pinned:
                 post.set_pinned(True)
-                return Response(redirect=env.request.referer)
+                return xmpp_template('post_pinned', post_id=post_id)
             else:
                 raise PostAlreadyPinnedError
         else:
@@ -382,7 +382,7 @@ def unpin_post(post_id):
         if env.user.id == post.author.id:
             if post.pinned:
                 post.set_pinned(False)
-                return Response(redirect=env.request.referer)
+                return return xmpp_template('post_unpinned', post_id=post_id)
             else:
                 raise PostNotPinnedError
         else:
