@@ -382,7 +382,7 @@ def unpin_post(post_id):
         if env.user.id == post.author.id:
             if post.pinned:
                 post.set_pinned(False)
-                return return xmpp_template('post_unpinned', post_id=post_id)
+                return xmpp_template('post_unpinned', post_id=post_id)
             else:
                 raise PostNotPinnedError
         else:
