@@ -317,6 +317,8 @@ def recommend(post_id, comment_id=None, text=None):
     except CommentNotFound:
         return xmpp_template('comment_not_found', post_id=post_id,
                                                   comment_id=comment_id)
+    except PostReadonlyError:
+        return xmpp_template('post_readonly', post_id=post_id)
     except RecommendationError:
         return xmpp_template('post_recommend_denied', post_id=post_id)
     except PostAuthorError:
